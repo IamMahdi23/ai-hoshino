@@ -2,16 +2,18 @@ import os
 import discord
 from discord.ext import commands
 
-# Set up the bot with the command prefix
-intents = discord.Intents.default()
-bot = commands.Bot(command_prefix='!', intents=intents)
+intents = discord.Intents.default()  # You can customize intents here.
+intents.message_content = True  # Enable the message content intent (for bot commands to work).
 
-# Event triggered when the bot is ready
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+# Load extensions (cogs)
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
-    # Load the cog that contains the commands (including !ping)
-    bot.load_extension("cogs.commands")
+    # Load commands cog
+    await bot.load_extension("cogs.commands")
 
-# Run the bot with the token from environment variables (GitHub Secrets)
+
+# Run the bot
 bot.run(os.getenv("TOKEN"))
