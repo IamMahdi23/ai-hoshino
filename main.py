@@ -1,22 +1,17 @@
+import os
 import discord
 from discord.ext import commands
-import os  # If you're using an environment variable for the token
 
-# Enable necessary intents
+# Set up the bot with the command prefix
 intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 
-# Create the bot with a command prefix
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-# Event that is triggered when the bot is ready
+# Event triggered when the bot is ready
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
-
-    # Load the cog
+    # Load the cog that contains the commands (including !ping)
     bot.load_extension("cogs.commands")
 
-# Run the bot
-bot.run(os.getenv("TOKEN"))  # Ensure your token is set in GitHub Secrets or an .env file
+# Run the bot with the token from environment variables (GitHub Secrets)
+bot.run(os.getenv("TOKEN"))
